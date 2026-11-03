@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: gd-drive-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: .
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3001"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/drive.sqlite
+      - key: STORAGE_DIR
+        value: /var/data/files
+      - key: CORS_ORIGIN
+        sync: false
+    disk:
+      name: gd-drive-data
+      mountPath: /var/data
+      sizeGB: 1
